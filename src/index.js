@@ -51,7 +51,7 @@ let Nomes_Servidores = []
 //* Será execultado assim que o bot estiver pronto
 bot.on("ready", (e) => {
     Nomes_Servidores = []
-    console.log(`Bot ${e.user.tag} foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`)
+    // console.log(`Bot ${e.user.tag} foi iniciado, com ${bot.users.cache.size} usuários, em ${bot.channels.cache.size} canais, em ${bot.guilds.cache.size} servidores.`)
     bot.user.setActivity(`Eu estou em ${bot.guilds.cache.size} servidores`) //* Altera o jogando do bot
 
     bot.user.setStatus('online') //* Altera o status do bot Idle, Online, Invisible...]
@@ -71,7 +71,7 @@ bot.on("ready", (e) => {
 
 //* Será execultado sempre que o bot for adicionado em algum servidor
 bot.on("guildCreate", guild => {
-    console.log(`O bot entrou no servidor: ${guild.name} (id: ${guild.id}). População: ${guild.memberCount} membros!`)
+    // console.log(`O bot entrou no servidor: ${guild.name} (id: ${guild.id}). População: ${guild.memberCount} membros!`)
 
     //* Vai informar nos status do bot em quantos servers ele está
     bot.user.setActivity(`Estou em ${bot.guilds.cache.size} servidores`)
@@ -87,14 +87,14 @@ bot.on("guildCreate", guild => {
     Servidores = getServidores()
     Servidores.push(new_servidor)
 
-    console.log('----------------------- Entrou ---------------------')
-    console.log(Servidores)
-    console.log('----------------------------------------------------')
+    // console.log('----------------------- Entrou ---------------------')
+    // console.log(Servidores)
+    // console.log('----------------------------------------------------')
 })
 
 //* Será execultado sempre que o bot for removido de algum servidor
 bot.on("guildDelete", guild => {
-    console.log(`O bot foi removido do servidor: ${guild.name} (id: ${guild.id})`)
+    // console.log(`O bot foi removido do servidor: ${guild.name} (id: ${guild.id})`)
 
     //* Vai informar nos status do bot em quantos servers ele está
     bot.user.setActivity(`Serving ${bot.guilds.cache.size} servers`)
@@ -102,9 +102,9 @@ bot.on("guildDelete", guild => {
     for (let c = 0; c < Servidores.length; c++) {
         if(Servidores[c].ID == guild.id) {
             Servidores.splice(c, 1)
-            console.log('----------------------- Saiu ---------------------')
-            console.log(Servidores)
-            console.log('--------------------------------------------------')
+            // console.log('----------------------- Saiu ---------------------')
+            // console.log(Servidores)
+            // console.log('--------------------------------------------------')
             removeDocumentFromCollection('Servidores', guild.id)
             break
         }
@@ -181,7 +181,7 @@ bot.on("messageCreate", message => {
                 }
             }
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             return message.reply('Ops! Eu ainda não conheço esse comando!')
         }
     } 
@@ -281,9 +281,9 @@ bot.on(Events.InteractionCreate, async (interaction) => {
 
             if(servidor_atual.Tokens.length > 0) {
                 for (let c = 0; c < servidor_atual.Tokens.length; c++) {
-                    console.log(servidor_atual.Tokens[c].ID, buttonID)
+                    // console.log(servidor_atual.Tokens[c].ID, buttonID)
                     if(servidor_atual.Tokens[c].ID == buttonID) {
-                        console.log(servidor_atual.ID, buttonID)
+                        // console.log(servidor_atual.ID, buttonID)
                         
                         
                         Retornar_Jetton(servidor_atual.ID, buttonID).then(async resp => {
@@ -419,14 +419,14 @@ bot.login(process.env.TOKEN)
 
 //* Retorna as transações
 async function Check_Transactions() {
-    console.log('Comando rodando');
+    // console.log('Comando rodando');
 
     let Servidores = getServidores();    
 
     for (let c = 0; c < Servidores.length; c++) {
         if (Servidores[c].Tokens.length > 0) {
             
-            console.log(`Servidor: ${Nomes_Servidores[c].Nome}`);
+            // console.log(`Servidor: ${Nomes_Servidores[c].Nome}`);
 
             for (let b = 0; b < Servidores[c].Tokens.length; b++) {
                 let Todas_Transacoes = [];
@@ -434,7 +434,7 @@ async function Check_Transactions() {
                 async function Olhar_As_Transacoes(Holder) {
                     await Delay(1000); // Aguarda 1 segundo
                     try {
-                        console.log('Analizando Holder');
+                        // console.log('Analizando Holder');
 
                         const data = await getAccountTransactions(Holder);
 
@@ -466,13 +466,13 @@ async function Check_Transactions() {
                         try {
                             const guild = bot.guilds.cache.get(Servidores[c].ID);
                             if (!guild) {
-                                console.log('Servidor não encontrado.');
+                                // console.log('Servidor não encontrado.');
                                 return;
                             }
 
                             const channel = guild.channels.cache.get(Servidores[c].Tokens[b].Canal);
                             if (!channel) {
-                                console.log('Canal de transações não encontrado');
+                                // console.log('Canal de transações não encontrado');
 
                                 const embed = new EmbedBuilder()
                                     .setColor('#ff0000')
@@ -509,15 +509,15 @@ async function Check_Transactions() {
                                 .setStyle(ButtonStyle.Link);
 
                             channel.send({ embeds: [embed], components: [{ type: 1, components: [button] }] })
-                                .then(() => console.log('Mensagem enviada com sucesso!'))
-                                .catch(console.error);
+                                // .then(() => console.log('Mensagem enviada com sucesso!'))
+                                // .catch(console.error);
 
                         } catch (error) {
                             console.error(`Erro ao atualizar a transação do servidor: ${Servidores[c].ID} com token: ${Servidores[c].Tokens[b].ID}: ${error}`);
                         }
                     }
                 } else {
-                    console.log('---------- Nenhuma Transação ----------');
+                    // console.log('---------- Nenhuma Transação ----------');
                 }
             }
         } else {
